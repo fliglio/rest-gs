@@ -1,10 +1,9 @@
-# borg-demo
-
-	vagrant up
+# REST Getting Started
 
 
-	curl -s 172.20.20.12:8080/life-form -d '["Jean-Luc Picard", "William Riker", "Deanna Troi"]'
-	curl -s 172.20.20.12:8080/group -d '["Jean-Luc Picard", "William Riker", "Deanna Troi"]'
+	make docker-build
+	make docker-start
 
-	curl -s -X PUT 172.20.20.12:8080/race/humanity -d '{"status": "assimilated"}'
-	curl -s 172.20.20.12:8080/race/humanity
+	curl localhost/hello
+
+	make docker stop
