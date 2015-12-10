@@ -1,31 +1,36 @@
 FROM ubuntu:14.04
 
-MAINTAINER Ben Schwartz, https://github.com/fliglio
+# Ensure UTF-8
+RUN locale-gen en_US.UTF-8
+ENV LANG       en_US.UTF-8
+ENV LC_ALL     en_US.UTF-8
 
+
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update
+RUN apt-get install -y --force-yes \
+	php5-cli php5-fpm php5-mysql php5-pgsql php5-sqlite php5-curl \
+	php5-gd php5-mcrypt php5-intl php5-imap php5-tidy php5-memcache \
+	nginx \
+	memcached \
+	supervisor
 
-RUN apt-get install -y apache2 php5
+RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
+RUN sed -i "s/;date.timezone =.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 
-RUN a2enmod php5
-RUN a2enmod rewrite
+RUN mkdir -p /var/log/supervisor
+RUN mkdir -p /var/www
 
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
+ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
+RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
+ 
+ADD nginx-site   /etc/nginx/sites-available/default
 
 
 EXPOSE 80
 
-#ADD ./ /var/www/
+CMD ["/usr/bin/supervisord"]
 
-ADD apache-vhost.conf /etc/apache2/sites-enabled/000-default.conf
-
-
-VOLUME /var/www/
-VOLUME /var/log/apache/
-# Launch apache when launching the container
-
-ENTRYPOINT ["/usr/sbin/apache2ctl"]
-CMD ["-D", "FOREGROUND"]
