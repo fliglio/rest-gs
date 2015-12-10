@@ -6,7 +6,6 @@ use Fliglio\Http\Http;
 use Fliglio\Routing\Type\RouteBuilder;
 use Fliglio\Fli\Configuration\DefaultConfiguration;
 
-use Demo\Api\Todo;
 use Demo\Db\TodoDbm;
 use Demo\Resource\TodoResource;
 

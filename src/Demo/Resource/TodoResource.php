@@ -2,17 +2,16 @@
 
 namespace Demo\Resource;
 
-use Fliglio\Web\Body;
 use Fliglio\Web\PathParam;
 use Fliglio\Web\GetParam;
 use Fliglio\Web\Entity;
 
 use Fliglio\Http\ResponseWriter;
 use Fliglio\Http\Http;
+use Fliglio\Http\Exceptions\NotFoundException;
 
 use Demo\Api\Todo;
 use Demo\Db\TodoDbm;
-use Fliglio\Http\Exceptions\NotFoundException;
 
 class TodoResource {
 
@@ -33,9 +32,10 @@ class TodoResource {
 		}
 		return $todo->marshal();
 	}
-	public function add(Entity $entity) {
+	public function add(Entity $entity, ResponseWriter $resp) {
 		$todo = $entity->bind(Todo::getClass());
 		$this->db->save($todo);
+		$resp->setStatus(Http::STATUS_CREATED);
 		return $todo->marshal();
 	}
 	public function update(PathParam $id, Entity $entity) {
