@@ -8,9 +8,6 @@
 		<testsuite name="unit">
 			<directory suffix=".php">./src/test</directory>
 		</testsuite>
-		<testsuite name="component">
-			<directory suffix=".php">./src/componenttest</directory>
-		</testsuite>
 	</testsuites>
 
 </phpunit>
