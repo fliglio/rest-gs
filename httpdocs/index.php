@@ -6,8 +6,6 @@ ini_set("display_errors" , 1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-error_log("hello world");
-
 try {
 	$svc = new DemoApplication();
 	$svc->run();
