@@ -18,4 +18,5 @@ class TodoTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($todo, $entity, "api should be able to marshal/unmarshal without losing anything");
 	}
+
 }
