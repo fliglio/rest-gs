@@ -14,9 +14,6 @@
 		"fliglio/routing": "dev-master",
 		"fliglio/http":    "dev-master",
 		"fliglio/web":     "dev-master",
-		"fliglio/consul":  "dev-master",
-		"fliglio/borg":    "dev-master",
-		"videlalvaro/php-amqplib": "2.5.*",
 		"symfony/validator": "2.*",
 		"doctrine/annotations": "1.*",
 		"doctrine/cache": "1.*"
