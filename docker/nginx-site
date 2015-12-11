@@ -1,7 +1,7 @@
 server {
   listen        *:80 default_server;
 
-  root          /var/www/web/;
+  root          /var/www/httpdocs/;
   index         index.html index.htm index.php;
   server_name   localhost;
 

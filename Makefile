@@ -7,3 +7,7 @@ docker-start:
 
 docker-stop:
 	docker kill fliglio-app && docker rm fliglio-app
+
+test:
+	php ./vendor/bin/phpunit -c phpunit.xml
+
