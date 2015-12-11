@@ -16,7 +16,8 @@
 		"fliglio/web":     "dev-master",
 		"symfony/validator": "2.*",
 		"doctrine/annotations": "1.*",
-		"doctrine/cache": "1.*"
+		"doctrine/cache": "1.*",
+		"guzzlehttp/guzzle": "~6.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.1.0"
@@ -29,7 +30,7 @@
 	},
 	"autoload-dev": {
 		"psr-0": {
-			"Demo\\" : "src/componenttest"
+			"Demo\\" : "src/test"
 		}
 	}
 }
