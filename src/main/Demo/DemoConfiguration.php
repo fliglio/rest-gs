@@ -13,22 +13,25 @@ use Doctrine\Common\Cache\MemcacheCache;
 
 class DemoConfiguration extends DefaultConfiguration {
 
-	public function getRoutes() {
-
-		// Database Mapper
+	// Database Mapper
+	protected function getDbm() {
 		$mem = new \Memcache();
 		$mem->connect('localhost', 11211);
 
 		$cache = new MemcacheCache();
 		$cache->setMemcache($mem);
 
-		$db = new TodoDbm($cache);
+		return new TodoDbm($cache);
+	}
 
+	// Todo Resource
+	protected function getTodoResource() {
+		return new TodoResource($this->getDbm());
+	}
 
-		// Resources
-		$resource = new TodoResource($db);
+	public function getRoutes() {
 
-		
+		$resource = $this->getTodoResource();
 
 		return [
 			RouteBuilder::get()
@@ -59,6 +62,7 @@ class DemoConfiguration extends DefaultConfiguration {
 					
 		];
 	}
+
 }
 
 

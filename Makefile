@@ -9,5 +9,8 @@ docker-stop:
 	docker kill fliglio-app && docker rm fliglio-app
 
 test:
-	php ./vendor/bin/phpunit -c phpunit.xml
+	php ./vendor/bin/phpunit -c phpunit.xml --testsuite unit
+
+component-test:
+	php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
 

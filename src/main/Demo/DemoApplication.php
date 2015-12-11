@@ -6,12 +6,12 @@ use Fliglio\Fli\DefaultResolverApp;
 use Fliglio\Fli\ResolverAppMux;
 
 class DemoApplication extends ResolverAppMux {
-	public function __construct() {
+	public function __construct(DemoConfiguration $cfg) {
 		parent::__construct();
 		
 			
 		$fli = new DefaultResolverApp();
-		$fli->configure(new DemoConfiguration());
+		$fli->configure($cfg);
 
 		$this->addApp($fli);
 	}

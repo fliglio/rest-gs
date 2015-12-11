@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
+<!-- <phpunit bootstrap="./vendor/autoload.php"> -->
 <phpunit bootstrap="./vendor/autoload.php">
 
 	<testsuites>
-		<testsuite name="Unit Test Suite">
+		<testsuite name="unit">
 			<directory suffix=".php">./src/test</directory>
+		</testsuite>
+		<testsuite name="component">
+			<directory suffix=".php">./src/componenttest</directory>
 		</testsuite>
 	</testsuites>
 

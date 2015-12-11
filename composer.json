@@ -25,7 +25,7 @@
 	"autoload": {
 		"psr-0": { "Demo\\": "src/main/" }
 	},
-	 "autoload-dev": {
-		"psr-0": { "Demo\\" : "src/test/" }
+	"autoload-dev": {
+		"psr-0": { "Demo\\" : "src/componenttest/" }
 	}
 }
