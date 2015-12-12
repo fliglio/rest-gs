@@ -2,6 +2,7 @@ sudo: true                  # Required to install packages
 
 services:
   - docker
+
 language: php
 php:
   - '5.5'
