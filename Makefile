@@ -20,7 +20,7 @@ component-test: _test-run _do-component-test _test-stop
 
 _test-run:
 	mkdir -p build/test/log
-	ID=$$(docker run -t -d -p 80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test $(fliglio/test)) && \
+	ID=$$(docker run -t -d -p 80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test $(TEST_IMAGE)) && \
 		echo $$ID > build/test/id && \
 		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
 		echo $$PORT > build/test/port
