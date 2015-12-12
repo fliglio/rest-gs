@@ -15,13 +15,11 @@ class DemoConfiguration extends DefaultConfiguration {
 
 	// Database Mapper
 	protected function getDbm() {
-		$mem = new \Memcache();
-		$mem->connect('localhost', 11211);
+		$dsn = "mysql:host=localhost;dbname=todo";
+		$db = new \PDO($dsn, 'admin', 'changeme', [\PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8']);
+		$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
-		$cache = new MemcacheCache();
-		$cache->setMemcache($mem);
-
-		return new TodoDbm($cache);
+		return new TodoDbm($db);
 	}
 
 	// Todo Resource

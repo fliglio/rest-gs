@@ -2,7 +2,7 @@ NAME=rest-gs
 
 LOCAL_DEV_PORT=8080
 
-LOCAL_DEV_IMAGE=fliglio/localdev
+LOCAL_DEV_IMAGE=fliglio/local-dev
 TEST_IMAGE=fliglio/test
 
 
@@ -10,7 +10,7 @@ clean:
 	rm -rf build
 
 run:
-	docker run -p $(LOCAL_DEV_PORT):80 -v $(CURDIR)/:/var/www/ $(LOCAL_DEV_IMAGE)
+	docker run -p $(LOCAL_DEV_PORT):80 -p 3306:3306 -v $(CURDIR)/:/var/www/ $(LOCAL_DEV_IMAGE)
 
 
 test: unit-test component-test

@@ -10,13 +10,15 @@ class TodoDbm {
 	const INDEX = 'index';
 
 	private $cache;
+	private $db;
 	
-	public function __construct(Cache $cache) {
-		$this->cache = $cache;
+	public function __construct(\PDO $db) {
+		$this->db = $db;
 	}
 
 	public function findAll($status = null) {
 		$todos = [];
+		return [];
 		foreach ($this->getIndex() as $id) {
 			$todo = Todo::unmarshal($this->cache->fetch($id));
 			if (is_null($status) || $todo->getStatus() == $status) {
