@@ -2,15 +2,10 @@
 
 # REST Getting Started
 
-### Build Docker Image
-build a docker image to run the app
+### Run the app in a Docker container
+Start a docker container mounting the project inside to support live editing
 
-	make docker-build
-
-### Create Docker Container
-start a docker container, mount project inside to support live editing
-
-	make docker-start
+	make run
 
 
 ### Test it out!
@@ -72,12 +67,4 @@ excercise the rest api a little
 		"description": "get some milk"
 	  }
 	]
-
-
-### Tear Down Docker
-kill and remove the container
-
-	make docker-stop
-
-
 
