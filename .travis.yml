@@ -11,7 +11,8 @@ env:
     - QUIET=1               # Less verbose logging
     - UML_FIG=0             # Don't install fig
     - UML_DOCKERCOMPOSE=1   # Install docker-compose
-
+services:
+  - docker
 language: php
 php:
   - '5.5'
@@ -21,10 +22,10 @@ php:
 
 install:
   # Install https://github.com/moul/travis-docker toolchain
-  - sudo apt-get update
-  - sudo apt-get install -y wget
-  - wget -qO- https://get.docker.com/ | sudo sh
-  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
+  #- sudo apt-get update
+  #- sudo apt-get install -y wget
+  #- wget -qO- https://get.docker.com/ | sudo sh
+  #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - composer self-update
   - composer up
   #  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
