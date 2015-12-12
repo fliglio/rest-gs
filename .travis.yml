@@ -25,6 +25,7 @@ install:
   - sudo apt-get update
   - sudo apt-get install -y wget
   - wget -qO- https://get.docker.com/ | sudo sh
+  - composer up
   #  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
