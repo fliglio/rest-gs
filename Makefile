@@ -1,11 +1,13 @@
+LOCAL_DEV_PORT=8080
+
+LOCAL_DEV_IMAGE=fliglio/localdev
+TEST_IMAGE=fliglio/test
+
 clean:
 	rm -rf build
 
-docker-build:
-	docker build -t fliglio-app -f docker/Dockerfile docker
-
 run:
-	docker run -p 80:80 -v $(CURDIR)/:/var/www/ fliglio-app
+	docker run -p $(LOCAL_DEV_PORT):80 -v $(CURDIR)/:/var/www/ $(LOCAL_DEV_IMAGE)
 
 
 test: unit-test component-test
@@ -18,7 +20,7 @@ component-test: _test-run _do-component-test _test-stop
 
 _test-run:
 	mkdir -p build/test/log
-	ID=$$(docker run -t -d -p 80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test fliglio-test) && \
+	ID=$$(docker run -t -d -p 80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test $(fliglio/test)) && \
 		echo $$ID > build/test/id && \
 		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
 		echo $$PORT > build/test/port
