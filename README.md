@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/fliglio/rest-gs.svg)](https://travis-ci.org/fliglio/rest-gs)
+
 # REST Getting Started
 
 ### Build Docker Image
