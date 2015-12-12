@@ -18,12 +18,17 @@ component-test: _test-run _do-component-test _test-stop
 
 _test-run:
 	mkdir -p build/test/log
-	docker run -t -d -p 8000:80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test fliglio-test
+	ID=$$(docker run -t -d -p 80 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name fliglio-test fliglio-test) && \
+		echo $$ID > build/test/id && \
+		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
+		echo $$PORT > build/test/port
 	sleep 2
 
 _do-component-test:
-	php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
+	PORT=$$(cat build/test/port) && \
+		SVC_PORT=$$PORT php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
 
 _test-stop:
+
 	docker kill fliglio-test && docker rm fliglio-test
 
