@@ -8,7 +8,9 @@ run:
 	docker run -p 80:80 -v $(CURDIR)/:/var/www/ fliglio-app
 
 
-test:
+test: unit-test component-test
+
+unit-test:
 	php ./vendor/bin/phpunit -c phpunit.xml --testsuite unit
 
 component-test: _test-run _do-component-test _test-stop
