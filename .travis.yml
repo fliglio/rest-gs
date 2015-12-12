@@ -12,7 +12,7 @@ env:
     - UML_FIG=0             # Don't install fig
     - UML_DOCKERCOMPOSE=1   # Install docker-compose
 
-inguage: php
+language: php
 php:
   - '5.4'
   - '5.5'
