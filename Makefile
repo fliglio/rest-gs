@@ -1,3 +1,6 @@
+clean:
+	rm -rf build
+
 docker-build:
 	docker build -t fliglio-app -f docker/Dockerfile docker
 

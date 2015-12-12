@@ -3,4 +3,4 @@ tags
 index_cache
 composer.lock
 .vagrant
-log
+build
