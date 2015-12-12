@@ -18,17 +18,10 @@ php:
   - '5.5'
   - '5.6'
   - '7.0'
-  - hhvm
 
 install:
-  # Install https://github.com/moul/travis-docker toolchain
-  #- sudo apt-get update
-  #- sudo apt-get install -y wget
-  #- wget -qO- https://get.docker.com/ | sudo sh
-  #- curl -sLo - http://j.mp/install-travis-docker | sh -xe
   - composer self-update
   - composer up
-  #  - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
   - make test
