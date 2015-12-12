@@ -1,14 +1,14 @@
 server {
   listen        *:80 default_server;
 
-  root          /var/www/httpdocs/;
+  root          /var/www/src/test/httpdocs/;
   index         index.html index.htm index.php;
   server_name   localhost;
 
   index         index.html index.htm index.php;
 
-  access_log    /var/log/nginx/access.log;
-  error_log     /var/log/nginx/error.log error;
+  access_log    /var/log/nginx/localhost.com-access.log;
+  error_log     /var/log/nginx/localhost.com-error.log error;
 
   charset       utf-8;
 
