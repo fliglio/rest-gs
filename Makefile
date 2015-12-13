@@ -10,7 +10,15 @@ clean:
 	rm -rf build
 
 run:
-	docker run -p $(LOCAL_DEV_PORT):80 -p 3306:3306 -v $(CURDIR)/:/var/www/ $(LOCAL_DEV_IMAGE)
+	docker run -p $(LOCAL_DEV_PORT):80 -p 3306 -v $(CURDIR)/:/var/www/ --name $(NAME) $(LOCAL_DEV_IMAGE) 
+
+migrate:
+	@ID=$$(docker ps -a | grep -F "$(NAME) "| awk '{ print $$1 }') && \
+		IP=172.17.42.1 && \
+		echo "hello $$IP" && \
+		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "3306/tcp") 0).HostPort}}' $$ID ) && \
+		mysql -h $$IP -P $$PORT -u admin -pchangeme -e "CREATE DATABASE IF NOT EXISTS todo;" && \
+		X=$$(DB_HOST=$(IP) DB_NAME=todo DB_USER=admin DB_PASS=changeme DB_PORT=$(PORT) /usr/bin/php ./vendor/bin/phinx migrate -c ./phinx-local.php -e localdev)
 
 
 test: unit-test component-test
