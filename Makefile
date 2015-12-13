@@ -17,7 +17,7 @@ localdev-clean:
 	@ID=$$(docker ps -a | grep -F "$(NAME) "| awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker rm $$ID); fi
 
-run: _localdev-stop _localdev-rm
+run: localdev-clean
 	docker run -p $(LOCAL_DEV_PORT):80 -p 3306 -v $(CURDIR)/:/var/www/ --name $(NAME) $(LOCAL_DEV_IMAGE) 
 
 migrate:
