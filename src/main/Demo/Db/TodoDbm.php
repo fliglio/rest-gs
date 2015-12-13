@@ -19,8 +19,7 @@ class TodoDbm {
 	public function findAll($status = null) {
 		$stmt = $this->db->prepare("SELECT `id`, `description`, `status` FROM Todo");
 		$stmt->execute();
-		$vo = $stmt->fetch(\PDO::FETCH_ASSOC);
-		
+		$vo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 		return Todo::unmarshalCollection($vo);
 	}
 

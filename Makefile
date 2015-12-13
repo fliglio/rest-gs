@@ -1,12 +1,10 @@
 NAME=rest-gs
+DB_NAME=todo
 
 LOCAL_DEV_PORT=8080
 
 LOCAL_DEV_IMAGE=fliglio/local-dev
 TEST_IMAGE=fliglio/test
-
-
-DB_NAME=todo
 
 
 clean: _localdev-stop _localdev-rm _test-stop _test-rm
@@ -15,7 +13,7 @@ clean: _localdev-stop _localdev-rm _test-stop _test-rm
 
 _localdev-stop:
 	@ID=$$(docker ps | grep -F "$(NAME)" | awk '{ print $$1 }') && \
-		if test "$$ID" != ""; then X=$$(docker stop $$ID); fi
+		if test "$$ID" != ""; then X=$$(docker kill $$ID); fi
 
 _localdev-rm:
 	@ID=$$(docker ps -a | grep -F "$(NAME) "| awk '{ print $$1 }') && \
@@ -43,7 +41,7 @@ _test-run:
 		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
 		echo $$PORT > build/test/port
 	@echo "Bootstrapping component tests..."
-	@sleep 4
+	@sleep 3
 	docker run -v $(CURDIR)/:/var/www/ -e "DB_NAME=$(DB_NAME)" --link $(NAME)-test:localdev $(TEST_IMAGE) /usr/local/bin/migrate.sh
 
 _do-component-test:
