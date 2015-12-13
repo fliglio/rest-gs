@@ -26,8 +26,6 @@ class TodoStart extends AbstractMigration {
      */
 	public function change() {
 		
-		$this->execute('CREATE DATABASE Todo');
-
 		$table = $this->table('Todo');
 		$table->addColumn('status', 'string')
 			->addColumn('description', 'string')

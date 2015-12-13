@@ -17,56 +17,50 @@ class TodoDbm {
 	}
 
 	public function findAll($status = null) {
-		$todos = [];
-		return [];
-		foreach ($this->getIndex() as $id) {
-			$todo = Todo::unmarshal($this->cache->fetch($id));
-			if (is_null($status) || $todo->getStatus() == $status) {
-				$todos[] = $todo;
-			}
-		}
-		return $todos;
+		$stmt = $this->db->prepare("SELECT `id`, `description`, `status` FROM Todo");
+		$stmt->execute();
+		$vo = $stmt->fetch(\PDO::FETCH_ASSOC);
+		
+		return Todo::unmarshalCollection($vo);
 	}
 
 	public function find($id) {
-		if (!$this->cache->contains($id)) {
-			return null;
-		}
+		$stmt = $this->db->prepare("SELECT `id`, `description`, `status` FROM Todo WHERE id = :id");
+		$stmt->execute([":id" => $id]);
+		$vo = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-		return Todo::unmarshal($this->cache->fetch($id));
+		return Todo::unmarshal($vo);
 	}
 
 	public function save(Todo $todo) {
 		if (is_null($todo->getId())) {
-			$todo->setId(uniqid());
+			$sql = "INSERT INTO Todo (`description`, `status`) VALUES (:desc, :status)";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				":desc" => $todo->getDescription(),
+				":status" => $todo->getStatus(),
+			]);
+			$todo->setId($this->db->lastInsertId());
+		} else {
+			
+			$sql = "UPDATE Todo SET `description` = :desc, `status` = :status WHERE `id` = :id";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				":id" => $todo->getId(),
+				":desc" => $todo->getDescription(),
+				":status" => $todo->getStatus(),
+			]);
 		}
-		$this->cache->save($todo->getId(), $todo->marshal());
-		$this->addToIndex($todo->getId());
 		return $todo;
 	}
 
 	public function delete(Todo $todo) {
 		if ($this->find($todo->getId())) {
-			$this->cache->delete($todo->getId());
-			$this->removeFromIndex($todo->getId());
+			$sql = "DELETE FROM Todo WHERE `id` = :id";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				":id" => $todo->getId(),
+			]);
 		}
-	}
-	
-	private function getIndex() {
-		if (!$this->cache->contains(self::INDEX)) {
-			$this->cache->save(self::INDEX, []);
-		}
-		
-		return $this->cache->fetch(self::INDEX);
-	}
-	
-	private function addToIndex($id) {
-		$idx = $this->getIndex();
-		$idx[] = $id;
-		$this->cache->save(self::INDEX, array_unique($idx));
-	}
-	private function removeFromIndex($id) {
-		$idx = $this->getIndex();
-		$this->cache->save(self::INDEX, array_diff($idx, [$id]));
 	}
 }
