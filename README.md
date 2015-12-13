@@ -3,18 +3,18 @@
 # REST Getting Started
 
 ### Test it out!
-Start a docker container mounting the project inside to support live editing
+Start a docker container mounting the project inside to support live editing:
 
 	make run
 
-and in another terminal...
+In another terminal apply database migrations to your container:
 	
 	make migrate
 
 
-now you can excercise the rest api a little
+Now you can excercise the rest api a little:
 
-	$ curl -s localhost:8080/todo | jq .                                                        master ✗ 13:46:08
+	$ curl -s localhost:8080/todo | jq .
 	[]
 	$ curl -s -X POST localhost:8080/todo -d '{"description": "take out the trash", "status": "new"}' | jq .
 	{
@@ -22,7 +22,7 @@ now you can excercise the rest api a little
 	  "status": "new",
 	  "description": "take out the trash"
 	}
-	$ curl -s localhost:8080/todo/5669d68a8430b | jq .                                          master ✗ 13:46:43
+	$ curl -s localhost:8080/todo/5669d68a8430b | jq .
 	{
 	  "id": "5669d68a8430b",
 	  "status": "new",
@@ -40,7 +40,7 @@ now you can excercise the rest api a little
 	  "status": "new",
 	  "description": "get some milk"
 	}
-	$ curl -s localhost:8080/todo | jq .                                                        master ✗ 13:49:26
+	$ curl -s localhost:8080/todo | jq .
 	[
 	  {
 		"id": "5669d68a8430b",
@@ -53,7 +53,7 @@ now you can excercise the rest api a little
 		"description": "get some milk"
 	  }
 	]
-	$ curl -s localhost:8080/todo?status=open | jq .                                       4 ↵  master ✗ 13:52:27
+	$ curl -s localhost:8080/todo?status=open | jq .
 	[
 	  {
 		"id": "5669d68a8430b",
@@ -61,8 +61,8 @@ now you can excercise the rest api a little
 		"description": "take out the trash"
 	  }
 	]
-	$ curl -s -X DELETE localhost:8080/todo/5669d68a8430b | jq .                                master ✗ 13:53:02
-	$ curl -s localhost:8080/todo | jq .                                                        master ✗ 13:53:06
+	$ curl -s -X DELETE localhost:8080/todo/5669d68a8430b | jq .
+	$ curl -s localhost:8080/todo | jq .
 	[
 	  {
 		"id": "5669d73c96c8b",
