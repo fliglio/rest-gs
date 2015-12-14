@@ -15,9 +15,9 @@ clean: clean-localdev clean-test
 #
 
 clean-localdev:
-	@ID=$$(docker ps | grep -F "$(NAME)" | awk '{ print $$1 }') && \
+	@ID=$$(docker ps | grep "$(NAME)" | awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker kill $$ID); fi
-	@ID=$$(docker ps -a | grep -F "$(NAME) "| awk '{ print $$1 }') && \
+	@ID=$$(docker ps -a | grep "$(NAME) "| awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker rm $$ID); fi
 
 run: clean-localdev
@@ -39,9 +39,9 @@ unit-test:
 component-test: clean-test component-test-setup component-test-run component-test-teardown
 
 clean-test:
-	@ID=$$(docker ps | grep -F "$(NAME)-test" | awk '{ print $$1 }') && \
+	@ID=$$(docker ps | grep "$(NAME)-test" | awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker kill $$ID); fi
-	@ID=$$(docker ps -a | grep -F "$(NAME)-test "| awk '{ print $$1 }') && \
+	@ID=$$(docker ps -a | grep "$(NAME)-test "| awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker rm $$ID); fi
 	rm -rf build/test
 
@@ -56,9 +56,9 @@ component-test-run:
 	docker run -v $(CURDIR)/:/var/www/ --link $(NAME)-test:localdev $(TEST_IMAGE) /var/www/vendor/bin/phpunit -c /var/www/phpunit.xml --testsuite component
 
 component-test-teardown:
-	@ID=$$(docker ps | grep -F "$(NAME)-test" | awk '{ print $$1 }') && \
+	@ID=$$(docker ps | grep "$(NAME)-test" | awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker kill $$ID); fi
-	@ID=$$(docker ps -a | grep -F "$(NAME)-test "| awk '{ print $$1 }') && \
+	@ID=$$(docker ps -a | grep "$(NAME)-test "| awk '{ print $$1 }') && \
 		if test "$$ID" != ""; then X=$$(docker rm $$ID); fi
 
 
