@@ -49,7 +49,9 @@ component-test-setup:
 	@mkdir -p build/test/log
 	@ID=$$(docker run -t -d -p 80 -p 3306 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name $(NAME)-test $(TEST_IMAGE)) && \
 		echo $$ID > build/test/id && \
+		IP=$$(docker inspect --format='{{ .NetworkSettings.Gateway }}' $$ID ) && \
 		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
+		echo $$IP > build/test/ip && \
 		echo $$PORT > build/test/port
 	@echo "Bootstrapping component tests..."
 	@sleep 3
@@ -57,7 +59,8 @@ component-test-setup:
 
 component-test-run:
 	@PORT=$$(cat build/test/port) && \
-		SVC_PORT=$$PORT php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
+		IP=$$(cat build/test/ip) && \
+		SVC_PORT=$$PORT SVC_IP=$$IP php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
 
 component-test-teardown:
 	@ID=$$(docker ps | grep -F "$(NAME)-test" | awk '{ print $$1 }') && \
