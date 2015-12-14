@@ -14,7 +14,8 @@ class CrudTest extends \PHPUnit_Framework_TestCase {
 	public function setup() {
 		$driver = new Client();
 
-		$this->client = new TodoClient($driver, sprintf("http://%s:%s", getenv('SVC_IP'), getenv('SVC_PORT')));
+		$this->client = new TodoClient($driver, 
+			sprintf("http://%s:%s", getenv('LOCALDEV_PORT_80_TCP_ADDR'), 80));
 	}
 
 	public function teardown() {

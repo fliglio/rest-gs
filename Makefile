@@ -47,20 +47,13 @@ clean-test:
 
 component-test-setup:
 	@mkdir -p build/test/log
-	@ID=$$(docker run -t -d -p 80 -p 3306 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name $(NAME)-test $(TEST_IMAGE)) && \
-		echo $$ID > build/test/id && \
-		IP=$$(docker inspect --format='{{ .NetworkSettings.Gateway }}' $$ID ) && \
-		PORT=$$(docker inspect --format='{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $$ID ) && \
-		echo $$IP > build/test/ip && \
-		echo $$PORT > build/test/port
+	docker run -t -d -p 80 -p 3306 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name $(NAME)-test $(TEST_IMAGE)
 	@echo "Bootstrapping component tests..."
 	@sleep 3
 	docker run -v $(CURDIR)/:/var/www/ -e "DB_NAME=$(DB_NAME)" --link $(NAME)-test:localdev $(TEST_IMAGE) /usr/local/bin/migrate.sh
 
 component-test-run:
-	@PORT=$$(cat build/test/port) && \
-		IP=$$(cat build/test/ip) && \
-		SVC_PORT=$$PORT SVC_IP=$$IP php ./vendor/bin/phpunit -c phpunit.xml --testsuite component
+	docker run -v $(CURDIR)/:/var/www/ --link $(NAME)-test:localdev $(TEST_IMAGE) /var/www/vendor/bin/phpunit -c /var/www/phpunit.xml --testsuite component
 
 component-test-teardown:
 	@ID=$$(docker ps | grep -F "$(NAME)-test" | awk '{ print $$1 }') && \
