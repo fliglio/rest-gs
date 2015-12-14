@@ -13,12 +13,17 @@ use Fliglio\Http\Exceptions\NotFoundException;
 use Demo\Api\Todo;
 use Demo\Db\TodoDbm;
 
+use Demo\Weather\Api\Weather;
+use Demo\Weather\Client\WeatherClient;
+
 class TodoResource {
 
 	private $db;
+	private $weather;
 
-	public function __construct(TodoDbm $db) {
+	public function __construct(TodoDbm $db, WeatherClient $weather) {
 		$this->db = $db;
+		$this->weather = $weather;
 	}
 	
 	// GET /todo
@@ -26,7 +31,7 @@ class TodoResource {
 		$todos = $this->db->findAll(is_null($status) ? null : $status->get());
 		return Todo::marshalCollection($todos);
 	}
-	
+
 	// GET /todo/:id
 	public function get(PathParam $id) {
 		$todo = $this->db->find($id->get());
@@ -59,6 +64,12 @@ class TodoResource {
 			throw new NotFoundException();
 		}
 		$this->db->delete($todo);
+	}
+
+	// GET /weather
+	public function getWeather(GetParam $city, GetParam $state) {
+		$weather = $this->weather->getWeather($city->get(), $state->get());
+		return $weather->marshal();
 	}
 
 

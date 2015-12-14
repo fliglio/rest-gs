@@ -8,8 +8,9 @@ use Fliglio\Fli\Configuration\DefaultConfiguration;
 
 use Demo\Db\TodoDbm;
 use Demo\Resource\TodoResource;
+use Demo\Weather\Client\WeatherClient;
 
-use Doctrine\Common\Cache\MemcacheCache;
+use GuzzleHttp\Client;
 
 class DemoConfiguration extends DefaultConfiguration {
 
@@ -22,9 +23,14 @@ class DemoConfiguration extends DefaultConfiguration {
 		return new TodoDbm($db);
 	}
 
+	protected function getWeatherClient() {
+		$driver = new Client();
+		return new WeatherClient($driver, "http://api.openweathermap.org", "9cf059608c1d11796ac81d9db2f14c53");
+	}
+
 	// Todo Resource
 	protected function getTodoResource() {
-		return new TodoResource($this->getDbm());
+		return new TodoResource($this->getDbm(), $this->getWeatherClient());
 	}
 
 	public function getRoutes() {
@@ -56,6 +62,11 @@ class DemoConfiguration extends DefaultConfiguration {
 				->uri('/todo/:id')
 				->resource($resource, 'delete')
 				->method(Http::METHOD_DELETE)
+				->build(),
+			RouteBuilder::get()
+				->uri('/fair-weather-todo')
+				->resource($resource, 'getWeather')
+				->method(Http::METHOD_GET)
 				->build(),
 					
 		];

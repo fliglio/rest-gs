@@ -1,7 +1,7 @@
 NAME=rest-gs
 DB_NAME=todo
 
-LOCAL_DEV_PORT=8080
+LOCAL_DEV_PORT=8000
 
 LOCAL_DEV_IMAGE=fliglio/local-dev
 TEST_IMAGE=fliglio/test
