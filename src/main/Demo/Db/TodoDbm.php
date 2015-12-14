@@ -27,7 +27,9 @@ class TodoDbm {
 		$stmt = $this->db->prepare("SELECT `id`, `description`, `status` FROM Todo WHERE id = :id");
 		$stmt->execute([":id" => $id]);
 		$vo = $stmt->fetch(\PDO::FETCH_ASSOC);
-
+		if (empty($vo)) {
+			return null;
+		}
 		return Todo::unmarshal($vo);
 	}
 
@@ -54,12 +56,10 @@ class TodoDbm {
 	}
 
 	public function delete(Todo $todo) {
-		if ($this->find($todo->getId())) {
-			$sql = "DELETE FROM Todo WHERE `id` = :id";
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute([
-				":id" => $todo->getId(),
-			]);
-		}
+		$sql = "DELETE FROM Todo WHERE `id` = :id";
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute([
+			":id" => $todo->getId(),
+		]);
 	}
 }

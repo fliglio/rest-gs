@@ -4,6 +4,7 @@ namespace Demo\Client;
 
 use GuzzleHttp\Client;
 use Demo\Api\Todo;
+use Fliglio\Http\Http;
 
 class TodoClient {
 	private $client;
@@ -25,9 +26,16 @@ class TodoClient {
 		$body = json_decode($resp->getBody(), true);
 		return Todo::unmarshal($body);
 	}
+	
+	public function save(Todo $todo) {
+		$resp = $this->client->put("/todo/".$todo->getId(), ['json' => $todo->marshal()]);
+		
+		$body = json_decode($resp->getBody(), true);
+		return Todo::unmarshal($body);
+	}
 
 	public function get($id) {
-		$resp = $this->client->get("/todo/".$id);
+		$resp = $this->client->request("GET", "/todo/".$id);
 
 		$body = json_decode($resp->getBody(), true);
 		return Todo::unmarshal($body);
