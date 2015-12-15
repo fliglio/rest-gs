@@ -25,7 +25,7 @@ class WeatherFilteringTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
-	public function testGetAll() {
+	public function testGetWeatherAppropriate() {
 		// given
 		$todo1 = $this->client->add(new Todo(null, "Watch TV", "new", false));
 		$todo2 = $this->client->add(new Todo(null, "Walk in the park", "new", true));
