@@ -2,9 +2,7 @@ NAME=rest-gs
 DB_NAME=todo
 
 LOCAL_DEV_PORT=8000
-
 LOCAL_DEV_IMAGE=fliglio/local-dev
-TEST_IMAGE=fliglio/test
 
 
 clean: clean-localdev clean-test
@@ -47,13 +45,13 @@ clean-test:
 
 component-test-setup:
 	@mkdir -p build/test/log
-	@docker run -t -d -p 80 -p 3306 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ --name $(NAME)-test $(TEST_IMAGE)
+	@docker run -t -d -p 80 -p 3306 -v $(CURDIR)/:/var/www/ -v $(CURDIR)/build/test/log/:/var/log/nginx/ -e "DOC_ROOT=/var/www/src/test/httpdocs/" --name $(NAME)-test $(LOCAL_DEV_IMAGE)
 	@echo "Bootstrapping component tests..."
 	@sleep 3
-	docker run -v $(CURDIR)/:/var/www/ -e "DB_NAME=$(DB_NAME)" --link $(NAME)-test:localdev $(TEST_IMAGE) /usr/local/bin/migrate.sh
+	docker run -v $(CURDIR)/:/var/www/ -e "DB_NAME=$(DB_NAME)" --link $(NAME)-test:localdev $(LOCAL_DEV_IMAGE) /usr/local/bin/migrate.sh
 
 component-test-run:
-	docker run -v $(CURDIR)/:/var/www/ --link $(NAME)-test:localdev $(TEST_IMAGE) /var/www/vendor/bin/phpunit -c /var/www/phpunit.xml --testsuite component
+	docker run -v $(CURDIR)/:/var/www/ --link $(NAME)-test:localdev $(LOCAL_DEV_IMAGE) /var/www/vendor/bin/phpunit -c /var/www/phpunit.xml --testsuite component
 
 component-test-teardown:
 	@ID=$$(docker ps | grep "$(NAME)-test" | awk '{ print $$1 }') && \
