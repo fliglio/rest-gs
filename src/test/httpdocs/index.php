@@ -8,6 +8,8 @@ ini_set("display_errors" , 1);
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
+error_log("using test index");
+
 try {
 	$svc = new DemoApplication(new TestDemoConfiguration());
 	$svc->run();

@@ -29,6 +29,7 @@ class TodoStart extends AbstractMigration {
 		$table = $this->table('Todo');
 		$table->addColumn('status', 'string')
 			->addColumn('description', 'string')
+			->addColumn('outdoor', 'boolean')
 			->create();
 
 	}

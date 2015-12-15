@@ -15,11 +15,13 @@ class Todo implements MappableApi {
 	private $id;
 	private $status;
 	private $description;
+	private $outdoor;
 
-	public function __construct($id, $description, $status = self::STATUS_NEW) {
+	public function __construct($id = null, $description = null, $status = self::STATUS_NEW, $outdoor = false) {
 		$this->setId($id);
 		$this->setDescription($description);
 		$this->setStatus($status);
+		$this->setOutdoor($outdoor);
 	}
 
 	public function setId($id) {
@@ -42,6 +44,14 @@ class Todo implements MappableApi {
 	}
 	public function getStatus() {
 		return $this->status;
+	}
+
+	public function setOutdoor($od) {
+		$this->outdoor = $od;
+		return $this;
+	}
+	public function getOutDoor() {
+		return $this->outdoor;
 	}
 
 }

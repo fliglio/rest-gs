@@ -44,6 +44,11 @@ class DemoConfiguration extends DefaultConfiguration {
 				->method(Http::METHOD_GET)
 				->build(),
 			RouteBuilder::get()
+				->uri('/todo/weather')
+				->resource($resource, 'getWeatherAppropriate')
+				->method(Http::METHOD_GET)
+				->build(),
+			RouteBuilder::get()
 				->uri('/todo/:id')
 				->resource($resource, 'get')
 				->method(Http::METHOD_GET)
@@ -62,11 +67,6 @@ class DemoConfiguration extends DefaultConfiguration {
 				->uri('/todo/:id')
 				->resource($resource, 'delete')
 				->method(Http::METHOD_DELETE)
-				->build(),
-			RouteBuilder::get()
-				->uri('/fair-weather-todo')
-				->resource($resource, 'getWeather')
-				->method(Http::METHOD_GET)
 				->build(),
 					
 		];

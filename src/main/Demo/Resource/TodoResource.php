@@ -31,6 +31,18 @@ class TodoResource {
 		$todos = $this->db->findAll(is_null($status) ? null : $status->get());
 		return Todo::marshalCollection($todos);
 	}
+	// GET /todo/weather
+	public function getWeatherAppropriate(GetParam $city, GetParam $state, GetParam $status = null) {
+		$status = is_null($status) ? null : $status->get();
+
+		$weather = $this->weather->getWeather($city->get(), $state->get());
+
+		error_log(print_r($weather->marshal(), true));
+
+		$outdoorWeather = $weather->getDescription() == "Clear";
+		$todos = $this->db->findAll($status, $outdoorWeather);
+		return Todo::marshalCollection($todos);
+	}
 
 	// GET /todo/:id
 	public function get(PathParam $id) {
@@ -65,13 +77,6 @@ class TodoResource {
 		}
 		$this->db->delete($todo);
 	}
-
-	// GET /weather
-	public function getWeather(GetParam $city, GetParam $state) {
-		$weather = $this->weather->getWeather($city->get(), $state->get());
-		return $weather->marshal();
-	}
-
 
 }
 

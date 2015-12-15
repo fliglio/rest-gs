@@ -17,8 +17,12 @@ class TodoClient {
 	public function getAll() {
 		$resp = $this->client->get($this->baseUrl."/todo");
 
-		$body = json_decode($resp->getBody(), true);
-		return Todo::unmarshalCollection($body);
+		return Todo::unmarshalCollection($resp->json());
+	}
+	public function getWeatherAppropriate($city, $state) {
+		$resp = $this->client->get(sprintf("%s/todo/weather?city=%s&state=%s", $this->baseUrl, $city, $state));
+
+		return Todo::unmarshalCollection($resp->json());
 	}
 
 	public function add(Todo $todo) {

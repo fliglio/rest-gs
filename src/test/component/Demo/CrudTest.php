@@ -79,12 +79,14 @@ class CrudTest extends \PHPUnit_Framework_TestCase {
 
 		// when
 		$todos = $this->client->getAll();
+
+
 		// then
-		$expected = [
-			$todo1->setId($todos[0]->getId()),
-			$todo2->setId($todos[1]->getId()),
-		];
-		$this->assertEquals($expected, $todos, "should get back both created todos");
+		$todo1->setId($todos[0]->getId());
+		$todo2->setId($todos[1]->getId());
+		
+		$this->assertEquals([$todo1, $todo2], $todos, "should get back both created todos");
+
 	}
 
 	public function testDelete() {
