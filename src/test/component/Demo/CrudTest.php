@@ -71,20 +71,14 @@ class CrudTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetAll() {
 		// given
-		$todo1 = new Todo(null, "hello", "new");
-		$todo2 = new Todo(null, "world", "new");
-		$this->client->add($todo1);
-		$this->client->add($todo2);
-		
+		$todo1 = $this->client->add(new Todo(null, "Watch TV", "new", false));
+		$todo2 = $this->client->add(new Todo(null, "Walk in the park", "new", true));
 
 		// when
 		$todos = $this->client->getAll();
 
 
 		// then
-		$todo1->setId($todos[0]->getId());
-		$todo2->setId($todos[1]->getId());
-		
 		$this->assertEquals([$todo1, $todo2], $todos, "should get back both created todos");
 
 	}
