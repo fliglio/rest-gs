@@ -16,34 +16,26 @@ class TodoClient {
 
 	public function getAll() {
 		$resp = $this->client->get($this->baseUrl."/todo");
-
 		return Todo::unmarshalCollection($resp->json());
 	}
 	public function getWeatherAppropriate($city, $state) {
 		$resp = $this->client->get(sprintf("%s/todo/weather?city=%s&state=%s", $this->baseUrl, $city, $state));
-
 		return Todo::unmarshalCollection($resp->json());
 	}
 
 	public function add(Todo $todo) {
 		$resp = $this->client->post($this->baseUrl."/todo", ['json' => $todo->marshal()]);
-		
-		$body = json_decode($resp->getBody(), true);
-		return Todo::unmarshal($body);
+		return Todo::unmarshal($resp->json());
 	}
 	
 	public function save(Todo $todo) {
 		$resp = $this->client->put($this->baseUrl."/todo/".$todo->getId(), ['json' => $todo->marshal()]);
-		
-		$body = json_decode($resp->getBody(), true);
-		return Todo::unmarshal($body);
+		return Todo::unmarshal($resp->json());
 	}
 
 	public function get($id) {
 		$resp = $this->client->get($this->baseUrl."/todo/".$id);
-
-		$body = json_decode($resp->getBody(), true);
-		return Todo::unmarshal($body);
+		return Todo::unmarshal($resp->json());
 	}
 
 	public function delete($id) {
