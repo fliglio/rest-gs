@@ -51,7 +51,7 @@ class TodoDbm {
 	}
 
 	public function save(Todo $todo) {
-		if (is_null($todo->getId())) {
+		if (is_null($todo->getId()) || $todo->getId() == 0) {
 			$sql = "INSERT INTO Todo (`description`, `status`, `outdoor`) VALUES (:desc, :status, :outdoor)";
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([

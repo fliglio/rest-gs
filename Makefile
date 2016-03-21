@@ -1,12 +1,16 @@
 NAME=rest-gs
 DB_NAME=todo
 
-LOCAL_DEV_PORT=8000
+LOCAL_DEV_PORT=8002
 LOCAL_DEV_IMAGE=fliglio/local-dev
 
 
 clean: clean-localdev clean-test
 	rm -rf build
+
+swagger:
+	mkdir -p build
+	php vendor/bin/swagger ./src/main/ --output build/swagger.json
 
 #
 # Local Dev

@@ -5,6 +5,9 @@ namespace Demo\Api;
 use Fliglio\Web\MappableApi;
 use Fliglio\Web\MappableApiTrait;
 
+/**
+ * @SWG\Definition(@SWG\Xml(name="Title"))
+ */
 class Todo implements MappableApi {
 	use MappableApiTrait;
 
@@ -12,9 +15,29 @@ class Todo implements MappableApi {
 	const STATUS_OPEN = 'open';
 	const STATUS_CLOSED = 'closed';
 
+	/**
+	 * Id
+	 * @var int
+	 * @SWG\Property()
+	 */
 	private $id;
+	/**
+	 * Status
+	 * @var string
+	 * @SWG\Property(example="new")
+	 */
 	private $status;
+	/**
+	 * Description
+	 * @var string
+	 * @SWG\Property(example="Get milk")
+	 */
 	private $description;
+	/**
+	 * Will this todo be completed outdoors
+	 * @var bool
+	 * @SWG\Property(example=false)
+	 */
 	private $outdoor;
 
 	public function __construct($id = null, $description = null, $status = self::STATUS_NEW, $outdoor = false) {
