@@ -8,11 +8,13 @@ use Demo\Weather\Client\WeatherClient;
 use Fliglio\Http\Exceptions\NotFoundException;
 use Fliglio\Http\Http;
 use Fliglio\Http\ResponseWriter;
+use Fliglio\Logging\FLog;
 use Fliglio\Web\Entity;
 use Fliglio\Web\GetParam;
 use Fliglio\Web\PathParam;
 
 class TodoResource {
+	use FLog;
 
 	private $db;
 	private $weather;
@@ -35,7 +37,7 @@ class TodoResource {
 
 		$weather = $this->weather->getWeather($city->get(), $state->get());
 
-		error_log(print_r($weather->marshal(), true));
+		$this->log()->debug(print_r($weather->marshal(), true));
 
 		$outdoorWeather = $weather->getDescription() == "Clear";
 		$todos = $this->db->findAll($status, $outdoorWeather);
