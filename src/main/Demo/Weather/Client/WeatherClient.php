@@ -3,9 +3,12 @@
 namespace Demo\Weather\Client;
 
 use Demo\Weather\Api\Weather;
+use Fliglio\Logging\FLog;
 use GuzzleHttp\Client;
 
 class WeatherClient {
+	use FLog;
+
 	const URI = '/data/2.5/weather?units=imperial&q=';
 	private $client;
 	private $baseUrl;
@@ -20,7 +23,7 @@ class WeatherClient {
 
 	public function getWeather($city, $state) {
 		$url = sprintf("%s%s%s,%s&appid=%s", $this->baseUrl, self::URI, $city, $state, $this->api);
-		error_log("WEATHER URL: ".$url);
+		$this->log()->debug("WEATHER URL: ".$url);
 		$resp = $this->client->get($url);
 		
 		$vo = $resp->json();
