@@ -2,10 +2,9 @@
 
 namespace Demo;
 
-use Demo\Client\TodoClient;
 use Demo\Api\Todo;
+use Demo\Client\TodoClient;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 
 class WeatherFilteringTest extends \PHPUnit_Framework_TestCase {
 

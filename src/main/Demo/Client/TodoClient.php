@@ -2,9 +2,8 @@
 
 namespace Demo\Client;
 
-use GuzzleHttp\Client;
 use Demo\Api\Todo;
-use Fliglio\Http\Http;
+use GuzzleHttp\Client;
 
 class TodoClient {
 	private $client;
@@ -16,11 +15,15 @@ class TodoClient {
 
 	public function getAll() {
 		$resp = $this->client->get($this->baseUrl."/todo");
-		return Todo::unmarshalCollection($resp->json());
+		return array_map(function($vo) {
+			return Todo::unmarshal($vo);
+		}, $resp->json());
 	}
 	public function getWeatherAppropriate($city, $state) {
 		$resp = $this->client->get(sprintf("%s/todo/weather?city=%s&state=%s", $this->baseUrl, $city, $state));
-		return Todo::unmarshalCollection($resp->json());
+		return array_map(function($vo) {
+			return Todo::unmarshal($vo);
+		}, $resp->json());
 	}
 
 	public function add(Todo $todo) {

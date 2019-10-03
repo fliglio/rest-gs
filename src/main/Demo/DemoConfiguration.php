@@ -2,14 +2,12 @@
 
 namespace Demo;
 
-use Fliglio\Http\Http;
-use Fliglio\Routing\Type\RouteBuilder;
-use Fliglio\Fli\Configuration\DefaultConfiguration;
-
 use Demo\Db\TodoDbm;
 use Demo\Resource\TodoResource;
 use Demo\Weather\Client\WeatherClient;
-
+use Fliglio\Fli\Configuration\DefaultConfiguration;
+use Fliglio\Http\Http;
+use Fliglio\Routing\Type\RouteBuilder;
 use GuzzleHttp\Client;
 
 class DemoConfiguration extends DefaultConfiguration {

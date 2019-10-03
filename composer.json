@@ -8,7 +8,7 @@
 		"email": "benschw@gmail.com"
 	}],
 	"require": {
-		"php": ">=5.3",
+		"php": ">=5.4",
 		"fliglio/fli":     "dev-master",
 		"fliglio/flfc":    "dev-master",
 		"fliglio/routing": "dev-master",

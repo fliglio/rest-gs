@@ -2,9 +2,8 @@
 
 namespace Demo\Weather\Client;
 
-use GuzzleHttp\Client;
 use Demo\Weather\Api\Weather;
-use Fliglio\Http\Http;
+use GuzzleHttp\Client;
 
 class WeatherClient {
 	const URI = '/data/2.5/weather?units=imperial&q=';
