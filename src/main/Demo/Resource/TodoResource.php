@@ -2,19 +2,15 @@
 
 namespace Demo\Resource;
 
-use Fliglio\Web\PathParam;
-use Fliglio\Web\GetParam;
-use Fliglio\Web\Entity;
-
-use Fliglio\Http\ResponseWriter;
-use Fliglio\Http\Http;
-use Fliglio\Http\Exceptions\NotFoundException;
-
 use Demo\Api\Todo;
 use Demo\Db\TodoDbm;
-
-use Demo\Weather\Api\Weather;
 use Demo\Weather\Client\WeatherClient;
+use Fliglio\Http\Exceptions\NotFoundException;
+use Fliglio\Http\Http;
+use Fliglio\Http\ResponseWriter;
+use Fliglio\Web\Entity;
+use Fliglio\Web\GetParam;
+use Fliglio\Web\PathParam;
 
 class TodoResource {
 
@@ -29,7 +25,9 @@ class TodoResource {
 	// GET /todo
 	public function getAll(GetParam $status = null) {
 		$todos = $this->db->findAll(is_null($status) ? null : $status->get());
-		return Todo::marshalCollection($todos);
+		return array_map(function($todo) {
+			return $todo->marshal();
+		}, $todos);
 	}
 	// GET /todo/weather
 	public function getWeatherAppropriate(GetParam $city, GetParam $state, GetParam $status = null) {
@@ -41,7 +39,9 @@ class TodoResource {
 
 		$outdoorWeather = $weather->getDescription() == "Clear";
 		$todos = $this->db->findAll($status, $outdoorWeather);
-		return Todo::marshalCollection($todos);
+		return array_map(function($todo) {
+			return $todo->marshal();
+		}, $todos);
 	}
 
 	// GET /todo/:id

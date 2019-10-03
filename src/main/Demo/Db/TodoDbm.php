@@ -3,7 +3,6 @@
 namespace Demo\Db;
 
 use Demo\Api\Todo;
-use Doctrine\Common\Cache\Cache;
 
 class TodoDbm {
 	
@@ -36,8 +35,10 @@ class TodoDbm {
 		$sql .= " ORDER BY `id` ASC";
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute($args);
-		$vo = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-		return Todo::unmarshalCollection($vo);
+		$vos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+		return array_map(function($vo) {
+			return Todo::unmarshal($vo);
+		}, $vos);
 	}
 
 	public function find($id) {
