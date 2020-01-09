@@ -29,10 +29,14 @@ migrate:
 # Test
 #
 
-test: unit-test component-test
+test: 
+	unit-test component-test
 
 unit-test:
 	php ./vendor/bin/phpunit -c phpunit.xml --testsuite unit
+
+test73:
+	docker run -it --rm -v "$$PWD":/src -w /src php:7.3-cli php vendor/bin/phpunit -c phpunit.xml --testsuite unit
 
 component-test: clean-test component-test-setup component-test-run component-test-teardown
 

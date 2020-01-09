@@ -2,7 +2,7 @@
 
 namespace Demo\Api;
 
-class TodoTest extends \PHPUnit_Framework_TestCase {
+class ApiMapperTest extends \PHPUnit_Framework_TestCase {
 	public function setup() {
 	}
 	public function testApiMapper() {
