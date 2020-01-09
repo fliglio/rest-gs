@@ -29,8 +29,7 @@ migrate:
 # Test
 #
 
-test: 
-	unit-test component-test
+test: unit-test component-test
 
 unit-test:
 	php ./vendor/bin/phpunit -c phpunit.xml --testsuite unit
